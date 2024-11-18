@@ -6,7 +6,7 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/18 16:04:23 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/18 19:42:33 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,24 +19,30 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = fdf.c \
-		full_libft/full_libft.a
+		full_libft/full_libft.a \
+		minilibx-linux/libmlx_Linux.a \
+		minilibx-linux/libmlx.a
 
 OBJ = $(SRC:.c=.o)
 LIBFTDIR= ./full_libft
+MLXDIR= ./minilibx-linux
 
 $(NAME): 
 	@make -C full_libft
-	$(CC) $(CFLAGS) $(SRC) -o fdf 
+	cd minilibx-linux && ./configure
+	$(CC) $(CFLAGS) $(SRC) -o fdf
 
 all: $(NAME)
 
 clean:
 	rm -f $(OBJ)
 	@cd $(LIBFTDIR) && make clean
+	@cd $(MLXDIR) && make clean
 
 fclean: clean
 	rm -f $(NAME)
 	@cd $(LIBFTDIR) && make clean
+	@cd $(MLXDIR) && make clean
 
 re: fclean all 
 
