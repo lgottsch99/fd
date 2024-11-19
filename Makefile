@@ -6,7 +6,7 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/18 19:42:33 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/19 19:28:52 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,22 +15,27 @@
 
 NAME = fdf
 
+LIBFTDIR= ./full_libft
+MLXDIR= ./minilibx-linux
+OBJDIR= 
+
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 
 SRC = fdf.c \
+
+
+
 		full_libft/full_libft.a \
 		minilibx-linux/libmlx_Linux.a \
-		minilibx-linux/libmlx.a
 
-OBJ = $(SRC:.c=.o)
-LIBFTDIR= ./full_libft
-MLXDIR= ./minilibx-linux
+MLX_FLAGS_LINUX = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+MLX_FLAGS_MAC =	-lm -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
 
 $(NAME): 
 	@make -C full_libft
 	cd minilibx-linux && ./configure
-	$(CC) $(CFLAGS) $(SRC) -o fdf
+	$(CC) $(CFLAGS) $(SRC) $(MLX_FLAGS_LINUX) -o fdf
 
 all: $(NAME)
 
