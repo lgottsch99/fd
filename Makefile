@@ -6,36 +6,41 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/19 19:28:52 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/20 17:00:58 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #TO DO 
-# include minilibx somehow
+#
+#make rule for mac
 
 NAME = fdf
 
 LIBFTDIR= ./full_libft
-MLXDIR= ./minilibx-linux
-OBJDIR= 
+MLXDIR= ./mlx_linux
 
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = fdf.c \
+MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm
+
+SRC= fdf.c 
+
+OBJ = $(SRC:.c=.o)
+
+AFILES= full_libft/full_libft.a \
+	mlx_linux/libmlx_Linux.a \
+		
+
+$(NAME): libft mlx
+	$(CC) $(CFLAGS) $(SRC) $(AFILES) -o $(NAME) $(MLX_FLAGS_LX)
 
 
-
-		full_libft/full_libft.a \
-		minilibx-linux/libmlx_Linux.a \
-
-MLX_FLAGS_LINUX = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
-MLX_FLAGS_MAC =	-lm -Lmlx -lmlx -Llibft -lft -framework OpenGL -framework AppKit
-
-$(NAME): 
+libft:
 	@make -C full_libft
-	cd minilibx-linux && ./configure
-	$(CC) $(CFLAGS) $(SRC) $(MLX_FLAGS_LINUX) -o fdf
+
+mlx: 
+	cd mlx_linux && ./configure
 
 all: $(NAME)
 
@@ -49,6 +54,6 @@ fclean: clean
 	@cd $(LIBFTDIR) && make clean
 	@cd $(MLXDIR) && make clean
 
-re: fclean all 
+re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft mlx
