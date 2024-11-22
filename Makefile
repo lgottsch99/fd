@@ -6,12 +6,12 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/20 17:00:58 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/22 18:20:31 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #TO DO 
-#
+#default make => linux
 #make rule for mac
 
 NAME = fdf
@@ -23,8 +23,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm
+MLX_FLAGS_MAC = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
-SRC= fdf.c 
+SRC= try_pix.c color.c gradient.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -34,7 +35,6 @@ AFILES= full_libft/full_libft.a \
 
 $(NAME): libft mlx
 	$(CC) $(CFLAGS) $(SRC) $(AFILES) -o $(NAME) $(MLX_FLAGS_LX)
-
 
 libft:
 	@make -C full_libft
@@ -56,4 +56,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re libft mlx
+#compilation on mac
+mac: libft mlx
+	$(CC) $(CFLAGS) $(SRC) $(AFILES) -o $(NAME) $(MLX_FLAGS_MAC)
+
+
+.PHONY: all clean fclean re libft mlx mac
