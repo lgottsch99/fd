@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/22 18:29:51 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/24 16:59:17 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 #include <math.h> //math fts
 #include "./mlx_linux/mlx.h" //minilibx for graphics rendering
+#include <X11/keysym.h> //defines some keycodes
+//#include <X.h> //for event macros like KeyPress https://codebrowser.dev/kde/include/X11/X.h.html
+
 
 typedef struct	s_data {
 	void	*img; //memadress of img

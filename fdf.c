@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/22 18:13:25 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:57:12 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,51 +34,45 @@ color: integer value, each component of the color (red, green, blue, and alpha) 
 	RR red
 	...
 	0xFF0000FF = ff (255=full)opaque, 0 red, 0 green, ff blue
+
+events + hooks + masks: 
+	event = sth happens that we an recognize, 
+	mask = filter for event, allows to further specify type of event (often uses bitmasking)
+	hook = custom code that will get executed afer certain event
+	When an event happens, the corresponding hook is called, and it allows to define custom behavior.
 	
 ???
 how to create image (=get pixels) =parse map
 what is image data type, how are pixels stored 
 what happens if transparency is changed?
+which structs to use? the ones from the lib? (probably bc otherwise segfault?)
 
-Strategy:
-open window
-create hooks:
-	esc/ x in window to close and end program
-	resizing window? - need to re render the image?
-	
-	
-create whole image parsing the map, then send to window???
+fdf Strategy:
+	open file map
+	read from map
+	create image
+	close file
+	open window = hooks
+	render image and push to window
+
 clean up: 
 	close window, free mem of image, close connection to x server
 
 TO DO 
-go thru 42 docs https://harm-smits.github.io/42docs/libs/minilibx/colors.html
+go thru 42 docs https://harm-smits.github.io/42docs/libs/minilibx/colors.html 
+read about isometric projection > find way to to it
+
 */
 
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}	t_data;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	main(int argc, char *argv[])
 {
-	char	*dst; //pointer to specific pixel in mem, data->addr = starting point of img in mem 
-
-	dst = data->addr + (x * data->line_length + y * (data->bits_per_pixel / 8)); //go to specific location
-	*(unsigned int*)dst = color; //set color to pixel
-}
-
-
-int	main(void)
-{
-	void	*mlx;
-	void	*window;
-
-	mlx = mlx_init(); //connect to x server
-	window = mlx_new_window(mlx, 640, 360, "Test"); //create window
-	mlx_loop(mlx); //initiate window rendering
-	
+	if (argc != 2)
+	{
+		ft_printf("Usage: ./fdf mapfile.fdf\n");
+		return (0);
+	}
+	//open and read from map
+		//get coord xyz for each value
+		
+	return (0);	
 }

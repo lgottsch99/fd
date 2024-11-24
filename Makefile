@@ -6,7 +6,7 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/22 18:20:31 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/24 15:12:32 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm
 MLX_FLAGS_MAC = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
-SRC= try_pix.c color.c gradient.c
+SRC= try_handling.c color.c gradient.c
 
 OBJ = $(SRC:.c=.o)
 

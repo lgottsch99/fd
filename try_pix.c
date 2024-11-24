@@ -38,7 +38,9 @@ int main (void)
 		return (1);
 	}
 
-	mlx = mlx_init();
+	mlx = mlx_init(); //mlx init returns Null on error
+	if (!mlx)
+		return 1;
 	window = mlx_new_window(mlx, 640, 360, "HII"); //create window
 	img->img = mlx_new_image(mlx, 640, 360); //create image
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian); //get img data
@@ -47,6 +49,7 @@ int main (void)
 	printf("endian: %i\n", img->endian);
 	//printf("addr: %p\n", img->addr);
 
+	//coordinates
 	start->x = 20;
 	start->y = 20;
 	i = 0;
@@ -72,5 +75,6 @@ int main (void)
 	
 	mlx_put_image_to_window(mlx, window, img->img, 0, 0);
 	mlx_loop(mlx);
+
 
 }
