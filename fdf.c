@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/24 17:57:12 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:57:36 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ events + hooks + masks:
 how to create image (=get pixels) =parse map
 what is image data type, how are pixels stored 
 what happens if transparency is changed?
-which structs to use? the ones from the lib? (probably bc otherwise segfault?)
+which structs to use? the ones from the lib? (probably bc otherwise segfault?-> check window handling)
+
 
 fdf Strategy:
 	open file map
-	read from map
-	create image
+	read from map + create image line for line 
 	close file
 	open window = hooks
 	render image and push to window

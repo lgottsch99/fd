@@ -6,11 +6,18 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 16:52:10 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/02 15:31:57 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/25 16:13:57 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../full_libft.h"
+
+/*
+returns:
+Read line: correct behavior
+NULL: there is nothing else to read, or an error
+occurred
+*/
 
 //use double pointer so u can operate on static pointer
 static char	*get_nl_and_update(char	**leftover)

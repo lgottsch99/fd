@@ -55,7 +55,7 @@ int main (void)
 	i = 0;
 
 	//set color
-	color = create_color(0, 255, 255, 0); 
+	color = create_color(0, 255, 0, 255); 
 
 	while (i < 100)
 	{
@@ -76,5 +76,5 @@ int main (void)
 	mlx_put_image_to_window(mlx, window, img->img, 0, 0);
 	mlx_loop(mlx);
 
-
+	return 0;
 }
