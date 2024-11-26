@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
+#    By: Watanudon <Watanudon@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/02 14:43:32 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/11 17:06:33 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/26 19:11:14 by Watanudon        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-NAME = full_libft.a
+NAME = libfull_libft.a
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)

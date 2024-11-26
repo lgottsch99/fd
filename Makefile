@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
+#    By: Watanudon <Watanudon@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/25 16:36:55 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/26 19:36:38 by Watanudon        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #TO DO 
 #default make => linux
 #make rule for mac
+#.a or .dylib files need lib- prefix for linker at compilation
 
 NAME = fdf
 
@@ -23,22 +24,22 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm
-MLX_FLAGS_MAC = -Lmlx -lmlx -framework OpenGL -framework AppKit
+MLX_FLAGS_MAC = -Lmlx_mac -lmlx -Lfull_libft -lfull_libft -framework OpenGL -framework AppKit
 
-SRC= try_parse.c
+SRC= fdf.c color.c gradient.c utils.c
 OBJ = $(SRC:.c=.o)
 
-AFILES= full_libft/full_libft.a \
-	mlx_linux/libmlx_Linux.a \
+LIBFTA= full_libft/libfull_libft.a
+MLXA= mlx_linux/libmlx_Linux.a
 		
 
-$(NAME): libft mlx
-	$(CC) $(CFLAGS) $(SRC) $(AFILES) -o $(NAME) $(MLX_FLAGS_LX)
+$(NAME): libft mlx-linux
+	$(CC) $(CFLAGS) $(SRC) $(LIBFTA) $(MLXA) -o $(NAME) $(MLX_FLAGS_LX)
 
 libft:
 	@make -C full_libft
 
-mlx: 
+mlx-linux: 
 	cd mlx_linux && ./configure
 
 all: $(NAME)
@@ -56,8 +57,10 @@ fclean: clean
 re: fclean all
 
 #compilation on mac
-mac: libft mlx
-	$(CC) $(CFLAGS) $(SRC) $(AFILES) -o $(NAME) $(MLX_FLAGS_MAC)
+mac: libft 
+	cd mlx_mac && make
+	cd ..
+	$(CC) $(CFLAGS) $(SRC) $(LIBFTA) -o $(NAME) $(MLX_FLAGS_MAC)
+	mv ./mlx_mac/libmlx.dylib ./
 
-
-.PHONY: all clean fclean re libft mlx mac
+.PHONY: all clean fclean re libft mlx-linux mac

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
+/*   By: Watanudon <Watanudon@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/25 16:57:36 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:28:36 by Watanudon        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 /*
 use minilibx for graphics rendering + math.h
 
-image = graphical object representing pixel data
+image = graphical object representing pixel data, just a block of memory returned and stored in void*
 bpp: bits per pixel
 	= gibt vor wie viel mem pro pixel benutzt wird, je groesser desto mehr farben kann es geben
 		24bpp = rgb, 32 bpp = rgba(a:alpha for transparency)
@@ -60,19 +60,75 @@ clean up:
 
 TO DO 
 go thru 42 docs https://harm-smits.github.io/42docs/libs/minilibx/colors.html 
-read about isometric projection > find way to to it
+read about isometric projection > find way to to it https://m4nnb3ll.medium.com/fil-de-fer-fdf-the-first-graphical-project-at-42-the-network-5cce69203448 shift using cracy math
+
 
 */
 
-int	main(int argc, char *argv[])
+/*
+typedef struct	s_data {
+	void	*img; //memadress of img
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
+my crazy huge data struct 
+*/
+typedef struct s_fdf {
+	void	*mlx; //connection to server
+	t_data	*image; //another struct see above
+	void	*window;
+
+
+} t_fdf; //big
+
+
+static t_fdf	*initialize(t_fdf *big) //initialize x connection, img, window
 {
-	if (argc != 2)
+	big->mlx = mlx_init();
+	if (!big->mlx)
+		return NULL;
+
+	big->image = (t_data *)malloc(sizeof(t_data)); //malloc space for image struct
+	if (!big->image)
 	{
-		ft_printf("Usage: ./fdf mapfile.fdf\n");
-		return (0);
+		ft_printf("image malloc error\n");
+		return (NULL);
 	}
-	//open and read from map
-		//get coord xyz for each value
-		
+	big->image->img = mlx_new_image(big->mlx, WIDTH, HEIGHT); //create image
+	big->image->addr = mlx_get_data_addr(big->image->img, &big->image->bits_per_pixel, &big->image->line_length, &big->image->endian); //get img data
+	ft_printf("bpp: %i\n", big->image->bits_per_pixel);
+	ft_printf("line length: %i\n", big->image->line_length);
+	ft_printf("endian: %i\n", big->image->endian);
+	big->window = mlx_new_window(big->mlx, WIDTH, HEIGHT, "FDF"); //create window
+
+	//create pixel 
+
+	mlx_put_image_to_window(big->mlx, big->window, big->image->img, 0, 0);
+	return (big);
+}
+
+int	main(void)		//(int argc, char *argv[])
+{
+	t_fdf	*big; //my crazy big struct w everything
+
+	big = (t_fdf *)malloc(sizeof(t_fdf));
+	if (!big)
+	{
+		ft_printf("big malloc fail\n");
+		return 1;
+	}
+	//check if input ok   ---> missing: .fdf file existing? 
+	// if (argc != 2) 
+	// {
+	// 	ft_printf("Usage: ./fdf mapfile.fdf\n");
+	// 	return (0);
+	// }
+	big = initialize(big);
+	//hooks();
+
+	mlx_loop(big->mlx);
 	return (0);	
 }
