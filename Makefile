@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Watanudon <Watanudon@student.42.fr>        +#+  +:+       +#+         #
+#    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/26 19:36:38 by Watanudon        ###   ########.fr        #
+#    Updated: 2024/11/27 19:44:00 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,10 @@ MLXDIR= ./mlx_linux
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror
 
-MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm
+MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm -g
 MLX_FLAGS_MAC = -Lmlx_mac -lmlx -Lfull_libft -lfull_libft -framework OpenGL -framework AppKit
 
-SRC= fdf.c color.c gradient.c utils.c
+SRC= fdf.c color.c gradient.c hooks.c utils.c map_coord.c 
 OBJ = $(SRC:.c=.o)
 
 LIBFTA= full_libft/libfull_libft.a

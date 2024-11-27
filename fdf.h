@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Watanudon <Watanudon@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/26 18:41:07 by Watanudon        ###   ########.fr       */
+/*   Updated: 2024/11/27 19:44:22 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@
 
 #include <math.h> //math fts like sin cos
 #include "./mlx_linux/mlx.h" //minilibx for graphics rendering
-//#include <X11/keysym.h> //defines some keycodes, only needed on linux?
+#include <X11/keysym.h> //defines some keycodes, only needed on linux?
 //#include <X.h> //for event macros like KeyPress https://codebrowser.dev/kde/include/X11/X.h.html
-
+#include <fcntl.h>
 
 # define WIDTH 1280
 # define HEIGHT 720
-
 
 typedef struct	s_data {
 	void	*img; //memadress of img
@@ -31,7 +30,15 @@ typedef struct	s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}t_data;
+
+typedef struct s_fdf {
+	void	*mlx; //connection to server
+	t_data	*image; //another struct see above
+	void	*window;
+
+
+} t_fdf; //big
 
 
 //color.c
@@ -45,7 +52,12 @@ int		get_b(int trgb);
 int		add_shade(double distance, int color);
 int		get_opposite(int color);
 
+//hooks
+int	quit_window(t_fdf *big);
+int	destroy_esc(int keycode, t_fdf *big); //int is passed by internal event handler
 
+//map_coord.c
+void	parse_map(t_fdf *big, char *argv[]);
 
 //utils.c
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);

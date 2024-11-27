@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 15:02:08 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/24 17:42:04 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:58:13 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	destroy_esc(int keycode, t_vars window) //int is passed by internal event ha
 	}
 	return 0;
 }
-
+//SEG FAULT COMING FROM Passing by value, not operating on ptr/exact mem location 
 int main(void)
 {
 	t_vars	*window;
