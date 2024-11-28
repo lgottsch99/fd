@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:39:37 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/27 19:07:59 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:58:24 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // 	void	*mlx; //connection to server
 // 	t_data	*image; //another struct see above
 // 	void	*window;
-
+// t_list	*map;
 
 // } t_fdf; //big
 

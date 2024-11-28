@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_coord.c                                        :+:      :+:    :+:   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:32:05 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/27 19:55:54 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:04:57 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,48 @@
 // 	void	*mlx; //connection to server
 // 	t_data	*image; //another struct see above
 // 	void	*window;
-
+//  t_list	*map;
 
 // } t_fdf; //big
+
+void	print_list(void *node) //testing only
+{
+	ft_printf("content: %s\n", (char *)node);
+}
+
+static t_list	*create_list(int fd, t_list *list)
+{
+	char 	*trimmed;
+	char	*line;
+	t_list 	*node;
+	
+	while (1)
+	{
+//1. read line from map
+		line = get_next_line(fd); 
+		if(!line) //eof
+		{
+			ft_printf("eof reached\n");
+			break;
+		}
+		trimmed = ft_strtrim(line, "\n");
+		//ft_printf("trimmed: %s\n", trimmed);
+		free(line);
+		
+		node = ft_lstnew(trimmed);
+		//ft_printf("node content: %s\n", node ->content);
+		ft_lstadd_back(&list, node);
+	}
+	return (list);
+}
 
 
 void	parse_map(t_fdf *big, char *argv[])
 {
-	char 	*ptr; // make a list? , then connect gnl+split result to each node
-	char	**tmp;
+	t_list *list;
 	int		fd;
+	
+	list = NULL;
 	
 	//open file
 	fd = open(argv[1], O_RDONLY);
@@ -37,18 +69,11 @@ void	parse_map(t_fdf *big, char *argv[])
 		ft_printf("error opening map\n");
 		return;
 	}
-	//do this until ptr = null/eof
-		//each time malloc new 
-	ptr = get_next_line(fd); //1.
-	tmp = ft_split(ptr, ' '); //2.
-
-	ft_printf("line: %s\n", ptr);
-	int i;
-	i = 0;
-	while (tmp[i])
-	{
-		ft_printf("%s\n", tmp[i]);
-		i++;
-	}
-
+	list = create_list(fd, list);
+	big->map = list;
+	list = NULL;
+	ft_lstiter(big->map, print_list);
+	
+	
+	
 }

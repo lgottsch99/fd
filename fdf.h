@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/27 19:44:22 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:04:41 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_fdf {
 	void	*mlx; //connection to server
 	t_data	*image; //another struct see above
 	void	*window;
-
+	t_list	*map;
 
 } t_fdf; //big
 
@@ -56,7 +56,7 @@ int		get_opposite(int color);
 int	quit_window(t_fdf *big);
 int	destroy_esc(int keycode, t_fdf *big); //int is passed by internal event handler
 
-//map_coord.c
+//parse_map.c
 void	parse_map(t_fdf *big, char *argv[]);
 
 //utils.c

@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/27 19:45:49 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:36:14 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ my crazy huge data struct (def in fdf.h)
 // 	void	*mlx; //connection to server
 // 	t_data	*image; //another struct see above
 // 	void	*window;
-
+ 	t_list	*map;
 
 // } t_fdf; //big
 */
@@ -111,15 +111,17 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 	t_fdf	big; //my crazy big struct w everything
 
 	//check if input ok   ---> missing: .fdf file existing? 
-	if (argc != 2) 
+	if (argc != 2)
 	{
 		ft_printf("Usage: ./fdf mapfile.fdf\n");
 		return (0);
 	}
 	initialize(&big);
 
-	//parse map + create pixel on image
+	//TO DO parse map
 	parse_map(&big, argv);
+	
+	// create pixel on image
 	
 	//hooks();
 	mlx_hook(big.window, 2, 1L<<0, destroy_esc, &big); //pressing ESC key destroys window

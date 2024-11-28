@@ -6,11 +6,19 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 14:08:16 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/15 17:40:00 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:31:10 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../full_libft.h"
+
+/*
+The  memmove()  function  copies n bytes from memory area src to memory
+       area dest.  The memory areas may overlap: copying takes place as though
+       the  bytes in src are first copied into a temporary array that does not
+       overlap src or dest, and the bytes are then copied from  the  temporary
+       array to dest.
+*/
 
 static void	ft_backward(unsigned char *temp_d, unsigned char *temp_s, size_t n)
 {

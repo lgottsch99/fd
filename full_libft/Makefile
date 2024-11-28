@@ -6,7 +6,7 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/02 14:43:32 by lgottsch          #+#    #+#              #
-#    Updated: 2024/11/27 16:44:18 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/11/28 15:40:55 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ SRC= 	$(addprefix $(SRC_FOLDER), \
 					 ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c \
 					 ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c \
 					 ft_tolower.c ft_toupper.c \
+					 ft_lstnew.c ft_lstclear.c ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
+					 ft_lstsize.c ft_lstadd_back.c ft_lstadd_front.c\
 					./printf/ft_memaddress.c ./printf/ft_printf.c \
 					./printf/pf_putchar.c ./printf/pf_putnbr.c \
 					./printf/ft_putnbr_base.c ./printf/pf_putstr.c \
