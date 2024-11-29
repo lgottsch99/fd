@@ -6,15 +6,14 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/28 18:04:41 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:27:35 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "./full_libft/full_libft.h"
-
+#include "./full_libft/full_libft.h"
 #include <math.h> //math fts like sin cos
 #include "./mlx_linux/mlx.h" //minilibx for graphics rendering
 #include <X11/keysym.h> //defines some keycodes, only needed on linux?
@@ -37,8 +36,18 @@ typedef struct s_fdf {
 	t_data	*image; //another struct see above
 	void	*window;
 	t_list	*map;
+	int 	size_x; //size map in right 
+	int		size_y;
+	int		tile_size;
 
 } t_fdf; //big
+
+typedef struct s_coord {
+	int 	x;
+	int 	y;
+	int 	height;
+	struct s_coord	*next;
+} t_coord;
 
 
 //color.c
@@ -59,8 +68,12 @@ int	destroy_esc(int keycode, t_fdf *big); //int is passed by internal event hand
 //parse_map.c
 void	parse_map(t_fdf *big, char *argv[]);
 
-//utils.c
+//create_image.c
+void	create_image(t_fdf	*big);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
+//utils.c
+int		count_x(t_list	*map);
 
 
 #endif

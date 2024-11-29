@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:32:05 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/28 18:04:57 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/29 19:27:48 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 // 	void	*mlx; //connection to server
 // 	t_data	*image; //another struct see above
 // 	void	*window;
-//  t_list	*map;
+// 	t_list	*map;
+// 	int 	size_x; //size map in right 
+// 	int		size_y;
+// 	int		tile_size;
 
 // } t_fdf; //big
 
@@ -47,7 +50,7 @@ static t_list	*create_list(int fd, t_list *list)
 		//ft_printf("trimmed: %s\n", trimmed);
 		free(line);
 		
-		node = ft_lstnew(trimmed);
+		node = ft_lstnew(trimmed); //MALLOC!!
 		//ft_printf("node content: %s\n", node ->content);
 		ft_lstadd_back(&list, node);
 	}
@@ -72,8 +75,12 @@ void	parse_map(t_fdf *big, char *argv[])
 	list = create_list(fd, list);
 	big->map = list;
 	list = NULL;
-	ft_lstiter(big->map, print_list);
 	
+	ft_lstiter(big->map, print_list); //test onlzy
 	
-	
+// count nr of tiles in x and y //map = list of char strs
+	big->size_x = count_x(big->map);
+	ft_printf("nr x: %i\n", big->size_x);
+	big->size_y = ft_lstsize(big->map);
+	ft_printf("nr y: %i\n", big->size_y);
 }

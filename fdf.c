@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/28 18:36:14 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/29 16:17:45 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ bpp: bits per pixel
 		in bpp 32 pixel stored in 4bytes/32bits, in bpp24 in 3bytes/24 bits -----> ein channel immer 8 bits (rot, green, blau, (alpha))
 endianness: gibt reihenfolge der pixel an und wie sie in mem gespeichert werden
 	=wichtig um bild zu kreieren/ daten zu lesen
-line length: nr of bytes used to store one row of pixel data
+line length: nr of bytes used to store one row of pixel data, pixel in memory mmight be stored including some padding
+	so it is easier for computer to process. that is why line_length != image width, special formula needed to laocate exact pixel mem location at x:y
 Offset: byte position of a specific pixel within the image data buffer: Example:
 	For an image of width 1000 pixels, with 24-bit RGB color (3 bytes per pixel), to access the pixel at row 2, column 500, the offset would be:
 	Offset=(1000×3x2)+(500×3)=6000+1500=7500 bytes
@@ -43,9 +44,7 @@ events + hooks + masks:
 	
 ???
 how to create image (=get pixels) =parse map
-what is image data type, how are pixels stored 
 what happens if transparency is changed?
-which structs to use? the ones from the lib? (probably bc otherwise segfault?-> check window handling)
 
 
 fdf Strategy:
@@ -122,13 +121,13 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 	parse_map(&big, argv);
 	
 	// create pixel on image
-	
+	create_image(&big);
 	//hooks();
 	mlx_hook(big.window, 2, 1L<<0, destroy_esc, &big); //pressing ESC key destroys window
 	mlx_hook(big.window, 17, 1L<<0, quit_window, &big); //window closing when x is clicked
 
-	if (big.image && big.window && big.image->img)
-		mlx_put_image_to_window(big.mlx, big.window, big.image->img, 0, 0);
+	//if (big.image && big.window && big.image->img)
+	mlx_put_image_to_window(big.mlx, big.window, big.image->img, 0, 0);
 
 	if (big.mlx)
 		mlx_loop(big.mlx);
