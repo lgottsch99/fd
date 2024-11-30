@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/29 19:27:35 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/30 17:14:41 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define WIDTH 1280
 # define HEIGHT 720
+#define OFF_X 200 //offset point for (0;0) in graphic
+#define OFF_Y 500
 
 typedef struct	s_data {
 	void	*img; //memadress of img
@@ -39,6 +41,7 @@ typedef struct s_fdf {
 	int 	size_x; //size map in right 
 	int		size_y;
 	int		tile_size;
+	int		color;
 
 } t_fdf; //big
 
@@ -49,6 +52,15 @@ typedef struct s_coord {
 	struct s_coord	*next;
 } t_coord;
 
+
+typedef struct s_line {
+	int parallel_x;
+	int	parallel_y;
+	int	diagonal_x;
+	int	diagonal_y;
+	int	delta_slow;
+	int	delta_fast;
+} t_line;
 
 //color.c
 int		create_color(int t, int r, int g, int b);
@@ -72,8 +84,14 @@ void	parse_map(t_fdf *big, char *argv[]);
 void	create_image(t_fdf	*big);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
+//draw lines.c
+void	draw_lines(t_fdf *big, t_coord *current, t_coord one_before, t_coord up_pix); //reihe fuer reihe
+t_coord	*get_pix_coord(t_fdf *big, t_coord *point);
+
+
 //utils.c
 int		count_x(t_list	*map);
+int		get_direction(int delta); //bestimme in welche richtung auf achse gehen muss
 
 
 #endif

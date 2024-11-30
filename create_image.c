@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:20 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/29 19:52:19 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/30 17:22:39 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,71 +136,52 @@ t_coord	*get_coords(t_list *list, int i) //returns list wit coords for current l
 	return (coord_list);
 }
 
-void	draw_lines(t_fdf *big, t_coord *current, t_coord *line_before, t_coord one_before) //reihe fuer reihe
-{
-	//check which scenario
-	if(current->y == 0)//erste reihe ->nix nach oben
-	{
-		if(current->x > 0) //x position == 0 -> keine linie nach links //unnoetig da nicht gecallt
-			draw_left();
-	}
-	else
-	{
-		if(current->x == 0)
-			draw_up();
-		else
-		{
-			draw_up();
-			draw_left();
-		}
-	}
-		
-
-	//need coords of line before same position & punkt before  
-	float 	m; //steigung
-	int		dx; //delta x zw 2 punkten
-	int		dy;	//delta y 
-
-	//Steigung berechnen
-
-
-}
 
 void	draw_stuff(t_fdf *big, t_coord *coords, t_coord *line_before) //manipulate pixels
 {//inside loop so for one line only
 	//put points of current line first to try
 		ft_printf("in draw stuff\n");
 
-	int 	color;
 	t_coord *current; //eig unnoetig
 	int 	x; //actual pixel address
 	int 	y; //actual pixel address
 	t_coord	one_before; //to rem letzten punkt
+	t_coord up_pix;
 
-	color = create_color(0, 255, 255, 0);
+	
+
 	current = coords;
 	while (current)//go through list of points/reihe fuer reihe und punkt f punkt
 	{
-		ft_printf("trying to get pixels\n");
-		ft_printf("x coord: %i\n", current->x);
-		ft_printf("y coord: %i\n", current->y);
+		//ft_printf("trying to get pixels\n");
+		//ft_printf("x coord: %i\n", current->x);
+		//ft_printf("y coord: %i\n", current->y);
+
+		//get pixel coords of point above
+		if (line_before)
+		{
+			up_pix.x = line_before->x;
+			up_pix.y = line_before->y;
+			up_pix.height = line_before-> height;
+		}
+		
 	//put pixel 								(CURRENTLY OHNE GUTEN OFFSET POINT !!!)
 		//points 
-		x = ((current->x * (big->tile_size/2)) + (current->y * (big->tile_size/2)));
-		y = ((current->x * big->tile_size) - (current->y * big->tile_size)); // - current->height; = hoehe
+		x = OFF_X + ((current->x * (big->tile_size/2)) + (current->y * (big->tile_size/2))) - current->height;
+		y = OFF_Y + ((current->x * big->tile_size) - (current->y * big->tile_size)); //= hoehe
 		
-		ft_printf("x coord: %i\n", x);
-		ft_printf("y coord: %i\n", y);
+		ft_printf("corner x coord: %i\n", x);
+		ft_printf("corner y coord: %i\n", y);
 		//draw point
-		my_mlx_pixel_put(big->image, x, y, color); 
+		my_mlx_pixel_put(big->image, x, y, big->color); //working fine
 		
 		//connect via lines
 		if (!(current->x == 0 && current->y == 0)) //wenn erster punkt dann keine linie
-			draw_lines(big, current, line_before, one_before);
-		
+			draw_lines(big, current, one_before, up_pix);
+
 		//update one before values 
-		one_before.x = x; //actual pix coord
-		one_before.y = y;
+		one_before.x = current->x;
+		one_before.y = current->y;
 		one_before.height = current->height;
 		
 		current = current->next;
@@ -225,26 +206,23 @@ void	plot_n_draw(t_fdf *big)
 	i = 0;
 	while(i < big->size_y) //i = nr of list element =
 	{
-			ft_printf("traversing list and getting coords\n");
+		ft_printf("traversing list and getting coords\n");
 
-		coords = get_coords(list, i); //returns list wit coords for current line
-		if (i > 0)
-			line_before = coords;
-		
+		coords = get_coords(list, i); //returns list with coords for current line
 		// TO DO draw points and lines between last line
 		draw_stuff(big, coords, line_before); //reihe fuer reihe
-
+		
+		line_before = coords;
+		
 		list = list->next; //traversing list
 		i++;
 	}
-
 
 }
 
 
 void	create_image(t_fdf	*big)
 {
-	int		tile_size;
 
 //initialize image
 	big->image->img = mlx_new_image(big->mlx, WIDTH, HEIGHT); //create image
@@ -259,6 +237,7 @@ void	create_image(t_fdf	*big)
 		
 // calculate a tile size that will fit everything into image
 	big->tile_size = 20; //get_tile_size(nr_x, nr_y, zero.x, zero.y); //10 FOR NOW --->CHANGE LATER 
+	big->color = create_color(0, 255, 255, 0);
 	// plot points onto image + draw lines between 
 	plot_n_draw(big);
 
