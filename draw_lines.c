@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 18:13:59 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:40:23 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_coord	*get_pix_coord(t_fdf *big, t_coord *point)
 		ft_printf("error malloc pix\n");
 		return (NULL);
 	}
-	pix->x = OFF_X + ((point->x * (big->tile_size/2)) + (point->y * (big->tile_size/2))) - point->height * big->tile_size;
+	pix->x = OFF_X + ((point->x * (big->tile_size/2)) + (point->y * (big->tile_size/2))) - point->height;
 	pix->y = OFF_Y + ((point->x * big->tile_size) - (point->y * big->tile_size)); // = hoehe
 	return (pix);
 }

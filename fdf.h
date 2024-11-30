@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 17:14:41 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:39:21 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WIDTH 1280
 # define HEIGHT 720
 #define OFF_X 200 //offset point for (0;0) in graphic
-#define OFF_Y 500
+#define OFF_Y 400
 
 typedef struct	s_data {
 	void	*img; //memadress of img

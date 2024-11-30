@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:20 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 18:19:28 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/11/30 18:41:06 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	draw_stuff(t_fdf *big, t_coord *coords, t_coord *line_before) //manipulate 
 		
 	//put pixel 								(CURRENTLY OHNE GUTEN OFFSET POINT !!!)
 		//points 
-		x = OFF_X + ((current->x * (big->tile_size/2)) + (current->y * (big->tile_size/2))) - current->height * big->tile_size;
+		x = OFF_X + ((current->x * (big->tile_size/2)) + (current->y * (big->tile_size/2))) - current->height;
 		y = OFF_Y + ((current->x * big->tile_size) - (current->y * big->tile_size)); //= hoehe
 		
 		ft_printf("corner x coord: %i\n", x);
@@ -236,7 +236,7 @@ void	create_image(t_fdf	*big)
 
 		
 // calculate a tile size that will fit everything into image
-	big->tile_size = 10; //get_tile_size(nr_x, nr_y, zero.x, zero.y); //10 FOR NOW --->CHANGE LATER 
+	big->tile_size = 20; //get_tile_size(nr_x, nr_y, zero.x, zero.y); //10 FOR NOW --->CHANGE LATER 
 	big->color = create_color(0, 255, 255, 0);
 	// plot points onto image + draw lines between 
 	plot_n_draw(big);
