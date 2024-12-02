@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:32:05 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/29 19:27:48 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:16:44 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_list(void *node) //testing only
 	ft_printf("content: %s\n", (char *)node);
 }
 
-static t_list	*create_list(int fd, t_list *list)
+static t_list	*create_list(t_fdf *big, int fd, t_list *list)
 {
 	char 	*trimmed;
 	char	*line;
@@ -51,6 +51,11 @@ static t_list	*create_list(int fd, t_list *list)
 		free(line);
 		
 		node = ft_lstnew(trimmed); //MALLOC!!
+		if (!node || !trimmed)
+		{
+			free_map(list);
+			free_everything(big);
+		}
 		//ft_printf("node content: %s\n", node ->content);
 		ft_lstadd_back(&list, node);
 	}
@@ -70,11 +75,14 @@ void	parse_map(t_fdf *big, char *argv[])
 	if (fd < 0)
 	{
 		ft_printf("error opening map\n");
-		return;
+		free_everything(big);
 	}
-	list = create_list(fd, list);
+	list = create_list(big, fd, list);
+
+//MAYBE create better data structure of map directly here??????
+
+	
 	big->map = list;
-	list = NULL;
 	
 	ft_lstiter(big->map, print_list); //test onlzy
 	

@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 18:39:21 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:10:10 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,13 @@ t_coord	*get_pix_coord(t_fdf *big, t_coord *point);
 //utils.c
 int		count_x(t_list	*map);
 int		get_direction(int delta); //bestimme in welche richtung auf achse gehen muss
+
+//free.c
+void free_image(t_data *image);
+void free_map(t_list *map); //traverses list and frees each node
+void free_big(t_fdf *big);
+void free_everything(t_fdf *big);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/29 16:17:45 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:13:02 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,21 @@ static void initialize(t_fdf *big) //initialize x connection, img, window
 	if (!big->image)
 	{
 		ft_printf("image malloc error\n");
-		free(big->mlx);
-		return;
+		free_everything(big);
 	}
 	big->image->img = mlx_new_image(big->mlx, WIDTH, HEIGHT); //create image
+	if(!big->image->img)
+		free_everything(big);
 	big->image->addr = mlx_get_data_addr(big->image->img, &big->image->bits_per_pixel, &big->image->line_length, &big->image->endian); //get img data
+	if(!big->image->addr)
+		free_everything(big);
+
 	// ft_printf("bpp: %i\n", big->image->bits_per_pixel);
 	// ft_printf("line length: %i\n", big->image->line_length);
 	// ft_printf("endian: %i\n", big->image->endian);
 	big->window = mlx_new_window(big->mlx, WIDTH, HEIGHT, "FDF"); //create window
+	if(!big->window)
+		free_everything(big);
 
 }
 
@@ -117,7 +123,7 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 	}
 	initialize(&big);
 
-	//TO DO parse map
+	// parse map
 	parse_map(&big, argv);
 	
 	// create pixel on image

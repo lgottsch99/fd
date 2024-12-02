@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:20 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 18:41:06 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/02 19:17:58 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,11 +224,11 @@ void	plot_n_draw(t_fdf *big)
 void	create_image(t_fdf	*big)
 {
 
-//initialize image
-	big->image->img = mlx_new_image(big->mlx, WIDTH, HEIGHT); //create image
-	big->image->addr = mlx_get_data_addr(big->image->img, &big->image->bits_per_pixel, &big->image->line_length, &big->image->endian); //get img data
-	if(big->image->img && big->image->addr)
-		ft_printf("created image\n");
+//initialize image (already done at start)
+	// big->image->img = mlx_new_image(big->mlx, WIDTH, HEIGHT); //create image
+	// big->image->addr = mlx_get_data_addr(big->image->img, &big->image->bits_per_pixel, &big->image->line_length, &big->image->endian); //get img data
+	// if(big->image->img && big->image->addr)
+	// 	ft_printf("created image\n");
 	// ft_printf("bpp: %i\n", big->image->bits_per_pixel);
 	// ft_printf("line length: %i\n", big->image->line_length);
 	// ft_printf("endian: %i\n", big->image->endian);
