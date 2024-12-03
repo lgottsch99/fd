@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/30 18:40:23 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:06:53 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_coord	*get_pix_coord(t_fdf *big, t_coord *point)
 		ft_printf("error malloc pix\n");
 		return (NULL);
 	}
-	pix->x = OFF_X + ((point->x * (big->tile_size/2)) + (point->y * (big->tile_size/2))) - point->height;
-	pix->y = OFF_Y + ((point->x * big->tile_size) - (point->y * big->tile_size)); // = hoehe
+	pix->x = OFF_X + ((point->y * (big->tile_size/2)) + (point->x * (big->tile_size/2)))- point->height;
+	pix->y = OFF_Y + ((point->y * big->tile_size) - (point->x * big->tile_size)); // = hoehe
 	return (pix);
 }
 
@@ -89,7 +89,7 @@ void	y_fast(int dx, int dy, int richtung_x, int richtung_y, t_line *initializing
 
 void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always only 2 ppoints needed
 {
-		ft_printf("in bresenham\n");
+	ft_printf("in bresenham\n");
 
 	//abstand/ deltas berechnen zwischen altem und neuen punkt (x0 = alter, x1 neuer punkt)
 	//current ! -> need actual pix coords here
@@ -102,17 +102,17 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 	t_line	*initializing; //to set data needed to draw line
 	
 	current_pix = get_pix_coord(big, current);
-	ft_printf("pixel current x: %i\n", current_pix->x);
-	ft_printf("pixel current y: %i\n", current_pix->y);
+	// ft_printf("pixel current x: %i\n", current_pix->x);
+	// ft_printf("pixel current y: %i\n", current_pix->y);
 	before_pix = get_pix_coord(big, point_before);
-	ft_printf("point before pix x: %i\n", before_pix->x);
-	ft_printf("point before pix y: %i\n", before_pix->y);
+	// ft_printf("point before pix x: %i\n", before_pix->x);
+	// ft_printf("point before pix y: %i\n", before_pix->y);
 
 	//entfernung 2 punkte berechnen = delta
 	dx = current_pix->x - before_pix->x;
 	dy = current_pix->y - before_pix->y;
-	ft_printf("dx: %i\n", dx);
-	ft_printf("dy: %i\n", dy);
+	// ft_printf("dx: %i\n", dx);
+	// ft_printf("dy: %i\n", dy);
 
 	//bestimme richtung bewegung und bekomme absoluten wert
 	richtung_x = get_direction(dx); ///returns -1 oder 1 oder 0
@@ -139,7 +139,7 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 
 void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 {
-	ft_printf("in schleife\n");
+	//ft_printf("in schleife\n");
 
 	int i; //counting pixel
 	int x;
@@ -179,26 +179,30 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 	ft_printf("line drawn\n");
 }
 
-void	draw_lines(t_fdf *big, t_coord *current, t_coord one_before, t_coord up_pix) //reihe fuer reihe
+void	draw_lines(t_fdf *big, t_coord *current, t_coord *one_before, t_coord *up_pix) //reihe fuer reihe
 {
 	ft_printf("in draw lines\n");
+	
 	//check which scenario
-	if(current->y == 0)//erste reihe ->nix nach oben
+	if(current->x == 0)//erste reihe ->nix nach oben
 	{
-		if(current->x > 0) //x position == 0 -> keine linie nach links //unnoetig da nicht gecallt
-			bresenham(big, current, &one_before);//go left
+		ft_printf("erste reihe\n");
+
+		if (current->y == 0) //punkt 0/0 nothing to draw
+			return;
+		else //y position == 0 -> keine linie nach links
+			bresenham(big, one_before, current);//go left
 	}
 	else
-	{			
-		//ft_printf("in else\n");
-		if(current->x == 0)
+	{
+		if(current->y == 0) //falls linker rand-> nix nach links
 		{
-			bresenham(big, current, &up_pix); //go up
+			bresenham(big, up_pix, current); //go up
 		}
 		else
 		{
-			bresenham(big, current, &up_pix); //go up
-			bresenham(big, current, &one_before); //go left
+			bresenham(big, up_pix,  current); //go up
+			bresenham(big, one_before, current); //go left
 		}
 	}
 }

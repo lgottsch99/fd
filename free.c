@@ -6,13 +6,17 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:25:50 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/02 17:18:00 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:51:06 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/* 
+/*
+TO DO
+adjust to new map structure (t_coord ** array of T_coord *lists)
+
+
 fts to free malloced mem
 
 typedef struct	s_data {
@@ -63,17 +67,17 @@ void free_image(t_data *image)
 		free(image->addr);
 }
 
-void free_map(t_list *map) //traverses list and frees each node
-{
-	t_list	*tmp;
+// void free_map(t_list *map) //traverses list and frees each node
+// {
+// 	t_list	*tmp;
 	
-	while (map)
-	{
-		tmp = map;
-		map = map->next;
-		free(tmp);
-	}
-}
+// 	while (map)
+// 	{
+// 		tmp = map;
+// 		map = map->next;
+// 		free(tmp);
+// 	}
+// }
 
 void free_big(t_fdf *big)
 {
@@ -92,7 +96,7 @@ void free_big(t_fdf *big)
 
 	if (big->map)
 	{
-		free_map(big->map); //frees whole map
+		//free_map(big->map); //frees whole map
 		free(big->map);
 	}
 	
