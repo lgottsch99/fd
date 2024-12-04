@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:32:05 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 19:18:32 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:57:15 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_coord **create_coord_list_ptrs(t_fdf *big);
 t_coord *create_coord(int x, int y, char *str);
 void	add_to_list(t_coord **coords, t_coord *list); //adding to end of list
-t_coord *getlastcoord(t_coord *coords);
 void	fill_coords(t_fdf *big, t_list *list, t_coord **coords);
 
 
@@ -120,7 +119,7 @@ t_coord **create_coord_list_ptrs(t_fdf *big)
 	t_coord **coord_list;
 
 	coord_list = (t_coord **)malloc(sizeof(t_coord *) * big->size_x);
-	if (! coord_list)
+	if (!coord_list)
 	{
 		ft_printf("error malloc coord list\n");
 		free_everything(big);
@@ -145,7 +144,7 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords)
 	tmp = coords;
 	x = 0;
 	ft_printf("size x: %i\n", big->size_x);
-	while (list)	//for each node in list: (pos here = x value)
+	while (x < big->size_x)	//for each node in list: (pos here = x value)
 	{
 		ft_printf("list content: %s\n", (char *)list->content);
 		//create single list of t_coords with values and add to coords
@@ -160,8 +159,8 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords)
 			node = create_coord(x, y, split[y]);//atoi to get int value (=height)
 			free(split[y]);
 			ft_printf("spplit freed\n");
-			
-			
+			ft_printf("x val: %i\n", x);
+			ft_printf("y val: %i\n", y);
 			
 			add_to_list(&(coords[x]), node); //sometimes segfault (ex basictest.fdf) <-----------------------
 			ft_printf("added\n");
@@ -190,6 +189,7 @@ t_coord *create_coord(int x, int y, char *str)
 	coord->y = y;
 	coord->x = x;
 	coord->height = ft_atoi(str);
+	coord->next = NULL;
 	ft_printf("created coord\n");
 	return (coord);
 }

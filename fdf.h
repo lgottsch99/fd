@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 18:58:22 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:21:20 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_coord	*get_pix_coord(t_fdf *big, t_coord *point);
 //utils.c
 int		count_x(t_list	*map);
 int		get_direction(int delta); //bestimme in welche richtung auf achse gehen muss
-t_coord *getlastcoord(t_coord *coords);
+t_coord *getlastcoord(t_coord **coords);
 void	add_to_list(t_coord **coords, t_coord *list); //adding to end of list
 
 
