@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:20 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 18:38:37 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:52:13 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ void	create_image(t_fdf	*big)
 	ft_printf("tile size is: %i\n", big->tile_size);
 
 	//do sth with colors ///TO DO LATER
-	big->color = create_color(0, 255, 255, 0);
+	big->color = create_color(0, 0, 255, 255);
 	// plot points onto image + draw lines between 
 	draw_stuff(big);
 

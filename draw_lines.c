@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 19:06:53 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:56:13 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 	fehler = initializing->delta_fast / 2; //ausgang fehler
 	//ft_printf("ausgangspunkt gesetzt\n");
 	//put pixel at start? //not needed in my case
-	if (x < HEIGHT && x > 0 && y < WIDTH && y > 0)
-		my_mlx_pixel_put(big->image, x, y, big->color);
+	//if (x < HEIGHT && x > 0 && y < WIDTH && y > 0)
+		//my_mlx_pixel_put(big->image, x, y, big->color);
 	ft_printf("erster punkt gemalt?\n");
 	//pixel berechnen und setzen 
 	i = 0;
@@ -173,7 +173,7 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 			y = y + initializing->parallel_y;
 		}
 		if (x < HEIGHT && x > 0 && y < WIDTH && y > 0)
-			my_mlx_pixel_put(big->image, x, y, big->color);
+			my_mlx_pixel_put(big->image, x, y, big->color); //create ft that returns int color based on height
 		i++;
 	}
 	ft_printf("line drawn\n");

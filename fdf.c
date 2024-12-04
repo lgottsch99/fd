@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 18:55:14 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:49:06 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 	// create pixel on image
 	create_image(&big);
 
-	ft_printf("buf bot %i\n", BUF_BOTTOM);
-ft_printf("buf left %i\n", BUF_LEFT);	
-	ft_printf("buf right %i\n", BUF_RIGHT);
+// 	ft_printf("buf bot %i\n", BUF_BOTTOM);
+// ft_printf("buf left %i\n", BUF_LEFT);	
+// 	ft_printf("buf right %i\n", BUF_RIGHT);
 	
 	//hooks();
 	mlx_hook(big.window, 2, 1L<<0, destroy_esc, &big); //pressing ESC key destroys window
