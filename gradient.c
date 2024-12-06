@@ -6,52 +6,58 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:55:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/22 18:29:21 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:29:11 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-/*
-add_shade is a function that accepts a double (distance) and a int (color) as 
-arguments, 0 will add no shading to the color, whilst 1 will make the color 
-completely dark. 0.5 will dim it halfway, and .25 a quarter way.
-double = floating point
-*/
-int	add_shade(double distance, int color)
+
+
+float	fraction(float x1, float x2, float x)
 {
-	int	t;
-	int r;
-	int g;
-	int b;
-
-	//get single color values
-	//change value individually using distance
-	t = get_t(color) * (1 - distance);
-	r = get_r(color) * (1 - distance);
-	g = get_g(color) * (1 - distance);
-	b = get_b(color) * (1 - distance);
-
-	//create new int
-	return (create_color(t, r, g, b));
+	if (x1 != x2)
+		return ((x - x1) / (x2 - x1));
+	return (0);
 }
 
-/*
-get_opposite is a function that accepts a int (color) as argument and that 
-will invert the color accordingly.
-Colour inversion is the colour left over when you deduct one RGB value from 255, 
-which is the highest RGB value you can have.
-*/
-int	get_opposite(int color)
+float function(int x, int y, t_coord *before_pix, t_coord *current_pix)
 {
-	int t;
-	int r;
-	int g;
-	int b;
+	int dx;
+	int dy;
+	float fraction_value;
+	
+	dx = current_pix->x - before_pix->x;
+	dy = current_pix->y - before_pix->y;
+	if (abs(dx) > abs(dy))
+		fraction_value = fraction(before_pix->x, current_pix->x, x);
+	else
+		fraction_value = fraction(before_pix->y, current_pix->y, y);
+	return (fraction_value);	
+}
 
-	t = 255 - get_t(color);
-	r = 255 - get_r(color);
-	g = 255 - get_g(color);
-	b = 255 - get_b(color);
-	return (create_color(t, r, g, b));
+int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y)//color value stored in ->height
+{
+	t_rgb before;
+	t_rgb current;
+	int new_r;
+	int new_g;
+	int new_b;
+	
+	before.r = get_r(before_pix->height);
+	before.g = get_g(before_pix->height);
+	before.b = get_b(before_pix->height);
+	current.r = get_r(current_pix->height);
+	current.g = get_g(current_pix->height);
+	current.b = get_b(current_pix->height);
+	new_r = before.r + (current.r - before.r) * function(x, y, before_pix, current_pix);
+	// if(new_r > 255)
+	// 	new_r = 255;
+	new_g = before.g + (current.g - before.g) * function(x, y, before_pix, current_pix);
+	// if(new_g > 255)
+	// 	new_g = 255;
+	new_b = before.b + (current.b - before.b) * function(x, y, before_pix, current_pix);
+	// if(new_b > 255)
+	// 	new_b = 255;
+	return(create_color(0, new_r, new_g, new_b));
 }

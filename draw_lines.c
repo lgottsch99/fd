@@ -6,13 +6,21 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/04 17:56:13 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:39:03 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+
 /*
+
+typedef struct s_rgb {
+	int r;
+	int g; 
+	int b;
+} t_rgb;
+
 typedef struct s_coord {
 	int 	x;
 	int 	y;
@@ -32,16 +40,47 @@ typedef struct s_fdf {
 	void	*mlx; //connection to server
 	t_data	*image; //another struct see above
 	void	*window;
-	t_list	*map;
+	t_coord	**map;
 	int 	size_x; //size map in right 
 	int		size_y;
+	int		highest_height;
 	int		tile_size;
 	int		color;
-
+	int		max_color; //for MAX_HEIGHT
+	
 } t_fdf; //big
 
 */
-void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix);
+void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix, t_coord *current_pix);
+
+int	get_point_color(t_coord *point, t_fdf *big)
+{
+	int distance; //to max height use percent?
+	int r;
+	int g;
+	int b;
+	
+	if(point->height < 0)
+		distance = MAX_HEIGHT + abs(point->height);
+	else
+		distance = MAX_HEIGHT - point->height;
+	r = get_r(big->max_color) - (2* (255/ 100) * distance); //- distance * 2;
+	if(r > 255)
+		r = 255;
+	else if (r < 0)
+		r = 0;
+	g = get_g(big->max_color) - (2* (255/ 100) * distance); //- distance * 2;
+	if(g > 255)
+		g = 255;
+	else if (g < 0)
+		g = 0;
+	b = get_b(big->max_color) + (2* (255/ 100) * distance);// + distance * 2;
+	if(b > 255)
+		b = 255;
+	else if (b < 0)
+		b = 0;
+	return (create_color(0, r, g, b));
+}
 
 t_coord	*get_pix_coord(t_fdf *big, t_coord *point)
 {
@@ -55,7 +94,10 @@ t_coord	*get_pix_coord(t_fdf *big, t_coord *point)
 	}
 	pix->x = OFF_X + ((point->y * (big->tile_size/2)) + (point->x * (big->tile_size/2)))- point->height;
 	pix->y = OFF_Y + ((point->y * big->tile_size) - (point->x * big->tile_size)); // = hoehe
-	return (pix);
+	pix->next = NULL;
+	pix->height = get_point_color(point, big);//use height to store color according to height of point?
+	
+	return(pix);
 }
 
 // typedef struct s_line {
@@ -97,14 +139,14 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 	int		dy;
 	int		richtung_x; //richtung bewegung
 	int		richtung_y;
-	t_coord	*current_pix; //pixel coords
+	t_coord	*current_pix; //pixel coords //USE HEIGHT TO STORE COLOR IN???
 	t_coord	*before_pix;
 	t_line	*initializing; //to set data needed to draw line
 	
-	current_pix = get_pix_coord(big, current);
+	current_pix = get_pix_coord(big, current); //USE HEIGHT TO STORE COLOR IN
 	// ft_printf("pixel current x: %i\n", current_pix->x);
 	// ft_printf("pixel current y: %i\n", current_pix->y);
-	before_pix = get_pix_coord(big, point_before);
+	before_pix = get_pix_coord(big, point_before);  //USE HEIGHT TO STORE COLOR IN
 	// ft_printf("point before pix x: %i\n", before_pix->x);
 	// ft_printf("point before pix y: %i\n", before_pix->y);
 
@@ -134,10 +176,11 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 	else //y ist schnelle richtung
 		y_fast(dx, dy, richtung_x, richtung_y, initializing);
 	
-	schleife(big, initializing, before_pix);
+	schleife(big, initializing, before_pix, current_pix);
 }
 
-void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
+
+void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix, t_coord *current_pix)
 {
 	//ft_printf("in schleife\n");
 
@@ -156,13 +199,12 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 	ft_printf("erster punkt gemalt?\n");
 	//pixel berechnen und setzen 
 	i = 0;
-	while (i < initializing->delta_fast)
+	while (i < initializing->delta_fast) //
 	{
 		//fehler neu berechnen
 		fehler = fehler - initializing->delta_slow;
-		if (fehler < 0)
+		if (fehler < 0) //fehler wider positiv
 		{
-			//fehler wider positiv
 			fehler = fehler + initializing->delta_fast;
 			x = x + initializing->diagonal_x;
 			y = y + initializing->diagonal_y;
@@ -173,7 +215,7 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix)
 			y = y + initializing->parallel_y;
 		}
 		if (x < HEIGHT && x > 0 && y < WIDTH && y > 0)
-			my_mlx_pixel_put(big->image, x, y, big->color); //create ft that returns int color based on height
+			my_mlx_pixel_put(big->image, x, y, get_pix_color(before_pix, current_pix, x, y)); //create ft that returns int color based on height
 		i++;
 	}
 	ft_printf("line drawn\n");

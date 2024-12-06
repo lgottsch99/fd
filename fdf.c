@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/04 18:49:06 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:36:06 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,20 @@ typedef struct	s_data {
 
 my crazy huge data struct (def in fdf.h)
 
-// typedef struct s_fdf {
-// 	void	*mlx; //connection to server
-// 	t_data	*image; //another struct see above
-// 	void	*window;
- 	t_list	*map;
+typedef struct s_fdf {
+	void	*mlx; //connection to server
+	t_data	*image; //another struct see above
+	void	*window;
+	t_coord	**map;
+	int 	size_x; //size map in right 
+	int		size_y;
+	int		highest_height;
+	int		tile_size;
+	int		color;
+	int		max_color;
+	
+} t_fdf; //big
 
-// } t_fdf; //big
 */
 
 
@@ -122,6 +129,9 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 		return (0);
 	}
 	initialize(&big);
+
+	//create max color for MAX_HEIGHT
+	big.max_color = create_color(0, 255, 255, 0); //gelb
 
 	// parse map
 	parse_map(&big, argv);

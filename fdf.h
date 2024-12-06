@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/04 16:21:20 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:36:08 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@
 #define BUF_BOTTOM HEIGHT - OFF_X
 #define BUF_LEFT 0.1 * WIDTH
 #define BUF_RIGHT WIDTH - BUF_LEFT
+#define MAX_HEIGHT 50 //for setting top color 
+
+typedef struct s_rgb {
+	int r;
+	int g; 
+	int b;
+} t_rgb;
+
 
 typedef struct	s_data {
 	void	*img; //memadress of img
@@ -64,7 +72,7 @@ typedef struct s_fdf {
 	int		highest_height;
 	int		tile_size;
 	int		color;
-
+	int		max_color;
 } t_fdf; //big
 
 //color.c
@@ -74,9 +82,17 @@ int		get_r(int trgb);
 int		get_g(int trgb);
 int		get_b(int trgb);
 
-//gradient.c
+//extra_color.c
 int		add_shade(double distance, int color);
 int		get_opposite(int color);
+
+//gradient.c
+
+float function(int x, int y, t_coord *before_pix, t_coord *current_pix);
+float	fraction(float x1, float x2, float x);
+int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y);//color value stored in ->height
+
+
 
 //hooks
 int	quit_window(t_fdf *big);

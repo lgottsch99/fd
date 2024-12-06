@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:25:50 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/03 17:51:06 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:46:18 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@
 TO DO
 adjust to new map structure (t_coord ** array of T_coord *lists)
 
+typedef struct s_rgb {
+	int r;
+	int g; 
+	int b;
+} t_rgb;
 
-fts to free malloced mem
 
 typedef struct	s_data {
 	void	*img; //memadress of img
@@ -25,19 +29,8 @@ typedef struct	s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-} t_data; //inside big only
+}t_data;
 
-typedef struct s_fdf {
-	void	*mlx; //connection to server
-	t_data	*image; //another struct see above
-	void	*window;
-	t_list	*map;
-	int 	size_x; //size map in right 
-	int		size_y;
-	int		tile_size;
-	int		color;
-
-} t_fdf; //big
 
 typedef struct s_coord {
 	int 	x;
@@ -55,6 +48,20 @@ typedef struct s_line {
 	int	delta_slow;
 	int	delta_fast;
 } t_line;
+
+typedef struct s_fdf {
+	void	*mlx; //connection to server
+	t_data	*image; //another struct see above
+	void	*window;
+	t_coord	**map;
+	int 	size_x; //size map in right 
+	int		size_y;
+	int		highest_height;
+	int		tile_size;
+	int		color;
+	int		max_color;
+} t_fdf; //big
+
 */
 
 
