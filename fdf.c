@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 13:36:06 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:47:38 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,26 @@ typedef struct s_fdf {
 } t_fdf; //big
 
 */
-
+void initialize_everything(t_fdf *big)
+{
+	big->mlx = NULL;
+	big->image = NULL;
+	big->window = NULL;
+	big->map = NULL;
+	big->size_x = 0;
+	big->size_y = 0;
+	big->highest_height = 0;
+	big->tile_size = 0;
+	big->color = 0;
+	big->max_color = 0;
+}
 
 static void initialize(t_fdf *big) //initialize x connection, img, window
 {
+	initialize_everything(big);
 	big->mlx = mlx_init();
 	if (!big->mlx)
-		return;
+		exit(1);
 	big->image = (t_data *)malloc(sizeof(t_data)); //malloc space for image struct
 	if (!big->image)
 	{
@@ -108,20 +121,20 @@ static void initialize(t_fdf *big) //initialize x connection, img, window
 	big->image->addr = mlx_get_data_addr(big->image->img, &big->image->bits_per_pixel, &big->image->line_length, &big->image->endian); //get img data
 	if(!big->image->addr)
 		free_everything(big);
-
-	// ft_printf("bpp: %i\n", big->image->bits_per_pixel);
-	// ft_printf("line length: %i\n", big->image->line_length);
-	// ft_printf("endian: %i\n", big->image->endian);
 	big->window = mlx_new_window(big->mlx, WIDTH, HEIGHT, "FDF"); //create window
 	if(!big->window)
 		free_everything(big);
+}
 
+void	hooks(t_fdf *big)
+{
+	mlx_hook(big->window, 2, 1L<<0, destroy_esc, big); //pressing ESC key destroys window
+	mlx_hook(big->window, 17, 1L<<0, quit_window, big); //window closing when x is clicked
 }
 
 int	main(int argc, char *argv[])	//(int argc, char *argv[])
 {
 	t_fdf	big; //my crazy big struct w everything
-
 	//check if input ok   ---> missing: .fdf file existing? 
 	if (argc != 2)
 	{
@@ -129,23 +142,19 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 		return (0);
 	}
 	initialize(&big);
-
 	//create max color for MAX_HEIGHT
 	big.max_color = create_color(0, 255, 255, 0); //gelb
-
 	// parse map
 	parse_map(&big, argv);
-	
-	// create pixel on image
-	create_image(&big);
+	big.tile_size = calc_tilesize(&big);
 
-// 	ft_printf("buf bot %i\n", BUF_BOTTOM);
-// ft_printf("buf left %i\n", BUF_LEFT);	
-// 	ft_printf("buf right %i\n", BUF_RIGHT);
-	
+	// create pixel on image
+	draw_stuff(&big);
 	//hooks();
-	mlx_hook(big.window, 2, 1L<<0, destroy_esc, &big); //pressing ESC key destroys window
-	mlx_hook(big.window, 17, 1L<<0, quit_window, &big); //window closing when x is clicked
+	//free_everything(&big);
+	hooks(&big);
+	// mlx_hook(big.window, 2, 1L<<0, destroy_esc, &big); //pressing ESC key destroys window
+	// mlx_hook(big.window, 17, 1L<<0, quit_window, &big); //window closing when x is clicked
 
 	//if (big.image && big.window && big.image->img)
 	mlx_put_image_to_window(big.mlx, big.window, big.image->img, 0, 0);

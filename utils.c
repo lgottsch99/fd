@@ -6,41 +6,76 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:59:25 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/04 16:59:23 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:57:31 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		count_x(t_list	*map)
+int calc_tilesize(t_fdf *big) //ignore height, subject says maps need to be properly formatted only 
 {
-	int 	nr;
-	char	*tmp;
+	int tile_size;
+	int fdf_width;
+	int fdf_height;
+	int w; //for calc + test
+	int h;
+
+	fdf_width = 0;//update each loop if ok
+	fdf_height = 0;
+	w = 0;
+	h = 0;
+	tile_size = 1;
+	while((w < BUF_RIGHT) && (h < BUF_BOTTOM))
+	{
+		w = BUF_LEFT + big->size_y * (tile_size * 2);
+		h = OFF_X + big->size_x * (tile_size);
+		if ((w < BUF_RIGHT) && (h < BUF_BOTTOM))
+		{
+			fdf_width = w;
+			fdf_height = h;
+			tile_size++;
+		}
+	}
+	return (tile_size);
+}
+
+int count(char *s)
+{
+	ft_printf("list: %s\n", s);
+	int nr;
 	char	**split;
 
 	nr = 0;
-	//just count length of one str
-	tmp = map->content;
-	//ft_printf("first map string: %s\n", tmp);
-	split = ft_split(tmp, ' ');
+	split = ft_split(s, ' ');
 	while (split[nr])
 	{
 		free(split[nr]);
-		nr++;		
+		nr++;
 	}
 	free(split);
 	return(nr);
 }
 
+// int		count_x(t_list	*map)
+// {
+// 	int 	nr;
+// 	char	*tmp;
+// 	char	**split;
 
-int	get_direction(int delta) //bestimme in welche richtung auf achse gehen muss
-{
-	if (delta < 0)
-		return (-1);
-	if (delta > 0)
-		return (1);
-	return (0);
-}
+// 	nr = 0;
+// 	//just count length of one str
+// 	tmp = map->content;
+// 	//ft_printf("first map string: %s\n", tmp);
+// 	split = ft_split(tmp, ' ');
+// 	while (split[nr])
+// 	{
+// 		free(split[nr]);
+// 		nr++;		
+// 	}
+// 	free(split);
+// 	return(nr);
+// }
+
 
 void	add_to_list(t_coord **coords, t_coord *list)//sometimes segfault (ex basictest.fdf)
 {

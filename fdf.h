@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:04 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 15:36:08 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 20:30:07 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,9 @@ int		add_shade(double distance, int color);
 int		get_opposite(int color);
 
 //gradient.c
-
 float function(int x, int y, t_coord *before_pix, t_coord *current_pix);
 float	fraction(float x1, float x2, float x);
 int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y);//color value stored in ->height
-
 
 
 //hooks
@@ -102,28 +100,37 @@ int	destroy_esc(int keycode, t_fdf *big); //int is passed by internal event hand
 void	parse_map(t_fdf *big, char *argv[]);
 
 //create_image.c
-void	create_image(t_fdf	*big);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int		calc_tilesize(t_fdf *big); //ignore height, subject says maps need to be properly formatted only 
+void	draw_stuff(t_fdf *big);
 
 //draw lines.c
 void	draw_lines(t_fdf *big, t_coord *current, t_coord *one_before, t_coord *up_pix); //reihe fuer reihe
 t_coord	*get_pix_coord(t_fdf *big, t_coord *point);
 
-
 //utils.c
 int		count_x(t_list	*map);
-int		get_direction(int delta); //bestimme in welche richtung auf achse gehen muss
 t_coord *getlastcoord(t_coord **coords);
 void	add_to_list(t_coord **coords, t_coord *list); //adding to end of list
+int calc_tilesize(t_fdf *big); //ignore height, subject says maps need to be properly formatted only 
+int count(char *s);
+
+
+//bresenham_extra.c
+void	y_fast(int dx, int dy, int richtung_x, int richtung_y, t_line *initializing);
+void	x_fast(int dx, int dy, int richtung_x, int richtung_y, t_line *initializing);
+int		get_direction(int delta); //bestimme in welche richtung auf achse gehen muss
+
 
 
 //free.c
 void free_image(t_data *image);
-void free_map(t_list *map); //traverses list and frees each node
+void free_map(t_coord	**map, int size);
+void free_coord_list(t_coord *nodes);
 void free_big(t_fdf *big);
 void free_everything(t_fdf *big);
 
+//free-extra
+void	free_list(t_list *list);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:39:37 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/11/28 17:58:24 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/06 19:09:35 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@
 
 int	quit_window(t_fdf *big)
 {
-	mlx_destroy_window(big->mlx, big->window);
+			ft_printf("x window\n");
 
+	// mlx_destroy_window(big->mlx, big->window);
+	free_everything(big);
 	exit (0);
 }
 
 int	destroy_esc(int keycode, t_fdf *big) //int is passed by internal event handler
 {
+	ft_printf("esc window\n");
 	//ft_printf("keycode: %i\n", keycode);
 	if(keycode == XK_Escape) //defined in header
 	{
-		if (big->window && big->mlx)
-			mlx_destroy_window(big->mlx, big->window);
-		//free(big.mlx);
-
+		free_everything(big);
 		//free necesarray stuff
 	}
 	exit(0);

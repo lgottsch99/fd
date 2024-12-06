@@ -6,7 +6,7 @@
 #    By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 16:00:38 by lgottsch          #+#    #+#              #
-#    Updated: 2024/12/02 19:09:16 by lgottsch         ###   ########.fr        #
+#    Updated: 2024/12/06 16:59:58 by lgottsch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS_LX = -I/usr/X11/include -L/usr/X11/lib -lX11 -lXext -lm -g
 MLX_FLAGS_MAC = -Lmlx_mac -lmlx -Lfull_libft -lfull_libft -framework OpenGL -framework AppKit
 
-SRC= fdf.c color.c gradient.c hooks.c parse_map.c create_image.c utils.c draw_lines.c free.c
+SRC= fdf.c color.c gradient.c hooks.c parse_map.c create_image.c utils.c draw_lines.c free.c free_extra.c bresenham_extra.c
 OBJ = $(SRC:.c=.o)
 
 LIBFTA= full_libft/libfull_libft.a
