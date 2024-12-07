@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 21:05:02 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 12:33:49 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_line *get_line_data_needed(int dx, int dy, int richtung_x, int richtung_y) //m
 
 void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always only 2 ppoints needed
 {
-	//ft_printf("in bresenham\n");
+	// ft_printf("in bresenham\n");
 
 	//abstand/ deltas berechnen zwischen altem und neuen punkt (x0 = alter, x1 neuer punkt)
 	//current ! -> need actual pix coords here
@@ -184,7 +184,7 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 
 void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix, t_coord *current_pix)
 {
-	//ft_printf("in schleife\n");
+	// ft_printf("in schleife\n");
 
 	int i; //counting pixel
 	int x;
@@ -220,12 +220,12 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix, t_coord *cu
 			my_mlx_pixel_put(big->image, x, y, get_pix_color(before_pix, current_pix, x, y)); //create ft that returns int color based on height
 		i++;
 	}
-	//ft_printf("line drawn\n");
+	ft_printf("line drawn\n");
 }
 
 void	draw_lines(t_fdf *big, t_coord *current, t_coord *one_before, t_coord *up_pix) //reihe fuer reihe
 {
-	//ft_printf("in draw lines\n");
+	// ft_printf("in draw lines\n");
 	//check which scenario
 	if(current->x == 0)//erste reihe ->nix nach oben
 	{

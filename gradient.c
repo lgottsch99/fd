@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 17:55:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 15:29:11 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 13:09:25 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ float function(int x, int y, t_coord *before_pix, t_coord *current_pix)
 
 int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y)//color value stored in ->height
 {
+	//ft_printf("in get pix color\n");
 	t_rgb before;
 	t_rgb current;
 	int new_r;
@@ -50,6 +51,8 @@ int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y)//colo
 	current.r = get_r(current_pix->height);
 	current.g = get_g(current_pix->height);
 	current.b = get_b(current_pix->height);
+		// ft_printf("1\n");
+
 	new_r = before.r + (current.r - before.r) * function(x, y, before_pix, current_pix);
 	// if(new_r > 255)
 	// 	new_r = 255;
@@ -59,5 +62,7 @@ int	get_pix_color(t_coord *before_pix, t_coord *current_pix, int x, int y)//colo
 	new_b = before.b + (current.b - before.b) * function(x, y, before_pix, current_pix);
 	// if(new_b > 255)
 	// 	new_b = 255;
+			// ft_printf("2\n");
+
 	return(create_color(0, new_r, new_g, new_b));
 }

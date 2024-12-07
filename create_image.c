@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:12:20 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 20:19:16 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 12:37:46 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,24 @@ void	draw_stuff(t_fdf *big)
 		y = 0;
 		while (y < big->size_y)
 		{
+				//ft_printf("before draw lines\n");
+
 			draw_lines(big, current, one_before, upper);
-			one_before = current;
-			if(upper)
+ft_printf("back from line drawn\n");
+			if (current)
+				one_before = current;
+			if(upper && upper->next)
 				upper = upper->next;
-			current = current->next; //traverse list
+			if(current->next)
+				current = current->next; //traverse list
+
 			y++;
 		}
+						ft_printf("back in outer\n");
+
 		x++;
 	}
+				ft_printf("loop done\n");
+
 }
 
