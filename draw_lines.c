@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 14:01:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/07 12:33:49 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:52:33 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,12 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 	t_line	*initializing; //to set data needed to draw line
 	
 	current_pix = get_pix_coord(big, current); //USE HEIGHT TO STORE COLOR IN //MALLOC
-	if (!current_pix)
+	if (!current_pix) //OK
 		free_everything(big);
 	// ft_printf("pixel current x: %i\n", current_pix->x);
 	// ft_printf("pixel current y: %i\n", current_pix->y);
 	before_pix = get_pix_coord(big, point_before);  //USE HEIGHT TO STORE COLOR IN //MALLOC
-	if (!before_pix)
+	if (!before_pix)//OKK
 	{
 		free(current_pix);
 		free_everything(big);
@@ -167,7 +167,7 @@ void	bresenham(t_fdf *big, t_coord *current, t_coord *point_before) //always onl
 		dy = -1 * dy;
 	
 	initializing = get_line_data_needed(dx, dy, richtung_x, richtung_y);
-	if (!initializing)
+	if (!initializing)//OKK
 	{
 		free(current_pix);
 		free(before_pix);
@@ -220,7 +220,7 @@ void	schleife(t_fdf *big, t_line *initializing, t_coord *before_pix, t_coord *cu
 			my_mlx_pixel_put(big->image, x, y, get_pix_color(before_pix, current_pix, x, y)); //create ft that returns int color based on height
 		i++;
 	}
-	ft_printf("line drawn\n");
+	// ft_printf("line drawn\n");
 }
 
 void	draw_lines(t_fdf *big, t_coord *current, t_coord *one_before, t_coord *up_pix) //reihe fuer reihe

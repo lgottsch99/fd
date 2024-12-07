@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 15:59:25 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/06 20:57:31 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:22:31 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,26 @@ int calc_tilesize(t_fdf *big) //ignore height, subject says maps need to be prop
 	return (tile_size);
 }
 
-int count(char *s)
+int count(char *s)//count words in s = y elements
 {
-	ft_printf("list: %s\n", s);
-	int nr;
-	char	**split;
-
+	// ft_printf("list: %s\n", s);
+	int i;
+	int		nr;
+ 	
 	nr = 0;
-	split = ft_split(s, ' ');
-	while (split[nr])
+	i = 0;
+	while (s[i])
 	{
-		free(split[nr]);
-		nr++;
+		// ft_printf("s[i]: %c\n", s[i]);
+		if (s[i] == ' ')
+			i++;
+		else
+		{
+			nr++;
+			while(s[i] != ' ' && s[i])
+				i++;
+		}
 	}
-	free(split);
 	return(nr);
 }
 

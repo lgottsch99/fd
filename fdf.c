@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:36:28 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/07 13:17:44 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:53:09 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,14 @@ int	main(int argc, char *argv[])	//(int argc, char *argv[])
 	//create max color for MAX_HEIGHT
 	big.max_color = create_color(0, 255, 255, 0); //gelb
 	// parse map
-	parse_map(&big, argv);
+	parse_map(&big, argv); //OKKK
 	ft_printf("finished parsing map\n");
 
 	big.tile_size = calc_tilesize(&big);
 	ft_printf("tile size ok\n");
 
 	// create pixel on image
-	draw_stuff(&big);
+	draw_stuff(&big); //OKK
 		ft_printf("finished draw stuff\n");
 
 	//hooks();

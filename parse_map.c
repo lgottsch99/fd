@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:32:05 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/07 13:23:30 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:47:03 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords);
 // 	int		highest_height;
 // 	int		tile_size;
 // 	int		color;
-
+// 	int		max_color;
 // } t_fdf; //big
+
 
 
 void	print_list(void *node) //testing only
@@ -57,6 +58,7 @@ static t_list	*create_list(t_fdf *big, int fd, t_list *list)
 		}
 		trimmed = ft_strtrim(line, "\n");
 		free(line);
+		line = NULL;
 		if(!trimmed)
 		{
 			free_list(list);
@@ -86,7 +88,7 @@ t_coord **create_coord_list_ptrs(t_fdf *big)
 	if (!coord_list)
 	{
 		ft_printf("error malloc coord list\n");
-		free_everything(big);
+		return(NULL);
 	}
 	i = 0;
 	while(i < big->size_x) //initialization needed for mem mgmt
@@ -102,17 +104,24 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords)
 	int	x;
 	int	y;
 	char **split;
-	t_coord **tmp;
-	t_coord *node; //pointer to new nodes 
+	t_list *tmp;
+	t_coord *node; //pointer to new nodes
 	
-	tmp = coords;
+	tmp = list;
 	x = 0;
 	//ft_printf("size x: %i\n", big->size_x);
 	while (x < big->size_x)	//for each node in list: (pos here = x value)
 	{
 		//ft_printf("list content: %s\n", (char *)list->content);
 		//create single list of t_coords with values and add to coords
-		split = ft_split((char *)list->content, ' '); //split content of one str to get single strs
+		
+		split = ft_split((char *)tmp->content, ' '); //split content of one str to get single strs //OK
+		if(!split)
+		{
+			free_list(list);
+			free_map(coords, x);
+			free_everything(big);
+		}
 		y = 0;
 		while (y < big->size_y && split[y])//for each str : (position here = y value)
 		{
@@ -121,6 +130,8 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords)
 			node = create_coord(x, y, split[y]);//atoi to get int value (=height)
 			if(!node)
 			{
+				free_split(split);
+				free_list(list);
 				free_map(coords, x);
 				free_everything(big);
 			}
@@ -129,17 +140,15 @@ void	fill_coords(t_fdf *big, t_list *list, t_coord **coords)
 			// ft_printf("x val: %i\n", x);
 			// ft_printf("y val: %i\n", y);
 			add_to_list(&(coords[x]), node);
-			ft_printf("added\n");
+			//ft_printf("added\n");
 			node = NULL;
 			y++;
 		}
 		free(split);
 		split = NULL;
-		tmp++;//move coords ptr in array to next list
-		list = list->next;
+		tmp = tmp->next;
 		x++;
 	}
-	tmp = NULL;
 }
 
 t_coord *create_coord(int x, int y, char *str)
@@ -167,7 +176,7 @@ t_coord *create_coord(int x, int y, char *str)
 void	parse_map(t_fdf *big, char *argv[]) //read and create map structure
 {
 	t_list  *list;
-	t_coord **coords; //pointer to final mapped values
+	// t_coord **coords; //pointer to final mapped values
 	int		fd;
 	
 	list = NULL;
@@ -184,19 +193,23 @@ void	parse_map(t_fdf *big, char *argv[]) //read and create map structure
 	big->size_x = ft_lstsize(list); //count nr elements in y direction
 	ft_printf("nr x: %i\n", big->size_x);
 
-	ft_printf("list: %s\n", list->content);
+	//ft_printf("list: %s\n", list->content);
 
 	big->size_y = count(list->content);
 	ft_printf("nr y: %i\n", big->size_y);
 
-
 	//create array of t_coord *ptrs (= array of pointers to lists)
-	coords = create_coord_list_ptrs(big); //malloc array of pointers
+	big->map = create_coord_list_ptrs(big); //malloc array of pointers  //OK
+	if(!big->map)
+	{
+		free_list(list);
+		free_everything(big);
+	}
 	//ft_printf("created array of coord ptrs\n");
-	fill_coords(big, list, coords); //fill with list and values
+	fill_coords(big, list, big->map); //fill with list and values
 	ft_printf("filled everything w values\n");
 	
 	free_list(list); //list not needed anymore
-	big->map = coords;
+	// big->map = coords;
 }
 

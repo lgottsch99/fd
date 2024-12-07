@@ -6,7 +6,7 @@
 /*   By: lgottsch <lgottsch@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:15:24 by lgottsch          #+#    #+#             */
-/*   Updated: 2024/12/07 13:08:28 by lgottsch         ###   ########.fr       */
+/*   Updated: 2024/12/07 14:45:33 by lgottsch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,17 @@ void	free_list(t_list *list)
 		free(tmp->content);
 		free(tmp);
 	}
+}
+
+void free_split(char **split)
+{
+	int i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
